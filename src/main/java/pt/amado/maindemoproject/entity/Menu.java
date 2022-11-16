@@ -13,6 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @RedisHash("Menu")
 public class Menu implements Serializable {
+
     @Id
     private int id;
 

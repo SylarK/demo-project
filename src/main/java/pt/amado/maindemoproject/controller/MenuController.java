@@ -1,9 +1,12 @@
 package pt.amado.maindemoproject.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pt.amado.maindemoproject.dto.MenuDTO;
 import pt.amado.maindemoproject.entity.Menu;
-import pt.amado.maindemoproject.repository.MenuRepository;
+import pt.amado.maindemoproject.exception.MenuException;
+import pt.amado.maindemoproject.service.MenuService;
 
 import java.util.List;
 
@@ -11,27 +14,36 @@ import java.util.List;
 @RequestMapping("/api/menu")
 public class MenuController {
 
+    private MenuService menuService;
+
     @Autowired
-    private MenuRepository menuRepository;
+    public MenuController(MenuService menuService){
+        this.menuService = menuService;
+    }
 
     @PostMapping
-    public Menu save(@RequestBody Menu menuDetails){
-        return menuRepository.save(menuDetails);
+    public ResponseEntity<MenuDTO> save(@RequestBody MenuDTO menuDetails) {
+        return ResponseEntity.ok(menuService.save(menuDetails));
     }
 
     @GetMapping
-    public List<Menu> getMenus(){
-        return menuRepository.findAll();
+    public ResponseEntity<List<Menu>> getMenus() {
+        return ResponseEntity.ok(menuService.findAll());
     }
 
     @GetMapping("/{id}")
-    public Menu findMenuItemById(@PathVariable int id){
-        return menuRepository.findItemById(id);
+    public ResponseEntity<Menu> findMenuItemById(@PathVariable int id) throws MenuException {
+        return ResponseEntity.ok(menuService.findItemById(id));
     }
 
     @DeleteMapping("/{id}")
-    public String deleteMenuById(@PathVariable int id){
-        return menuRepository.deleteMenu(id);
+    public ResponseEntity<String> deleteMenuById(@PathVariable int id) throws MenuException {
+        return ResponseEntity.ok(menuService.deleteMenu(id));
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteAllMenus() {
+        return ResponseEntity.ok(menuService.deleteAllMenus());
     }
 
 }

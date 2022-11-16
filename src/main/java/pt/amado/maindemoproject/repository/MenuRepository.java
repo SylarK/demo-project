@@ -2,6 +2,7 @@ package pt.amado.maindemoproject.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 import pt.amado.maindemoproject.entity.Menu;
 
@@ -16,6 +17,8 @@ public class MenuRepository {
     private RedisTemplate redisTemplate;
 
     public Menu save(Menu menu){
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        menu.setId(Math.toIntExact(valueOperations.increment("sequence", 1l)));
         redisTemplate.opsForHash().put(HASH_KEY_NAME, menu.getId(), menu);
         return menu;
     }
@@ -28,8 +31,11 @@ public class MenuRepository {
         return (Menu) redisTemplate.opsForHash().get(HASH_KEY_NAME, id);
     }
 
-    public String deleteMenu(int id){
-        redisTemplate.opsForHash().delete(HASH_KEY_NAME, id);
-        return "Menu deleted successfully!";
+    public long deleteMenu(int id){
+        return redisTemplate.opsForHash().delete(HASH_KEY_NAME, id);
+    }
+
+    public boolean deleteAllMenus(){
+        return redisTemplate.delete(HASH_KEY_NAME);
     }
 }
