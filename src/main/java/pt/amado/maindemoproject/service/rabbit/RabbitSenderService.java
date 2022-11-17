@@ -1,4 +1,4 @@
-package pt.amado.maindemoproject.service;
+package pt.amado.maindemoproject.service.rabbit;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 import pt.amado.maindemoproject.entity.Employee;
 
 @Service
-public class RabbitMQSenderService {
+public class RabbitSenderService {
 
     private AmqpTemplate rabbitTemplate;
 
     @Autowired
-    public RabbitMQSenderService(AmqpTemplate rabbitTemplate){
+    public RabbitSenderService(AmqpTemplate rabbitTemplate){
         this.rabbitTemplate = rabbitTemplate;
     }
 

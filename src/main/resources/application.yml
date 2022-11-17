@@ -6,3 +6,13 @@ spring:
   redis:
     host: localhost
     port: 6379
+  rabbitmq:
+    username: guest
+    password: guest
+    port: 5672
+    host: localhost
+data:
+  rabbitmq:
+    exchange: amado.exchange
+    queue: amado.queue
+    routing-key: amado.routingkey
