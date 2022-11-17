@@ -74,13 +74,4 @@ public class RabbitMQConfig {
         cachingConnectionFactory.setUsername(password);
         return cachingConnectionFactory;
     }
-
-    @Bean
-    MessageListenerContainer messageListenerContainer() {
-        SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
-        simpleMessageListenerContainer.setConnectionFactory(connectionFactory());
-        simpleMessageListenerContainer.setQueues(queue());
-        simpleMessageListenerContainer.setMessageListener(new RabbitListernerService());
-        return simpleMessageListenerContainer;
-    }
 }
