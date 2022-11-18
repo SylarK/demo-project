@@ -37,7 +37,7 @@ jobs:
       - name: Start docker containers
         run: |
           echo "VERSION=$(versioninfo)" >> $GITHUB_ENV
-          docker-compose -f tests-docker-compose.yml up --build --detach
+          docker-compose -f act-docker-compose.yml up --build --detach
           sleep 10  # waiting a moment
           
       - name: Build with Maven
